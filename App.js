@@ -34,7 +34,6 @@ const FirstRoute = () => {
   let manufacturer = DeviceInfo.getManufacturerSync();
   let appName = DeviceInfo.getApplicationName();
   let getVersion = DeviceInfo.getVersion();
-  let batteryLevel = DeviceInfo.useBatteryLevel();
   let model = DeviceInfo.getModel();
   let deviceName = DeviceInfo.getDeviceNameSync()
   let isTablet = DeviceInfo.isTablet();
@@ -43,11 +42,6 @@ const FirstRoute = () => {
   let brand = DeviceInfo.getBrand();
   let deviceType = DeviceInfo.getDeviceType();
   let Ip = DeviceInfo.getIpAddressSync();
-  let FreeDiskStorage = DeviceInfo.getFreeDiskStorageSync();
-  let TotalDiskCapacity = DeviceInfo.getTotalDiskCapacitySync();
-  let getTotalMemory = DeviceInfo.getTotalMemorySync();
-  let getUsedMemory = DeviceInfo.getUsedMemorySync();
-  let BatteryCharging = DeviceInfo.isBatteryChargingSync();
   // deviceJSON.batteryLevelIsLow = useBatteryLevelIsLow();
 
 return (
@@ -60,25 +54,19 @@ return (
     <Text style={{flex : 1,fontWeight: "bold"}}>Device Manufacturer</Text><Text style={{flex : 1}}>{manufacturer}</Text>
     </View>
     <View style={styles.LineBorder}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}>Battery Level</Text><Text style={{flex : 1}}>{Math.round(batteryLevel*100)}%</Text>
-    </View>
-    <View style={styles.LineBorderwhite}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Device Name</Text><Text style={{flex : 1}}>{deviceName}</Text>
     </View>
-    <View style={styles.LineBorder}> 
+    <View style={styles.LineBorderwhite}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Device Tablet</Text><Text style={{flex : 1}}>{String(isTablet)}</Text>
     </View>
-    <View style={styles.LineBorderwhite}> 
+    <View style={styles.LineBorder}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Device Unique Id</Text><Text style={{flex : 1}}>{UniqueId}</Text>
     </View>
-    <View style={styles.LineBorder}> 
+    <View style={styles.LineBorderwhite}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Brand</Text><Text style={{flex : 1}}>{brand}</Text>
     </View>
-    <View style={styles.LineBorderwhite}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}>Device Type</Text><Text style={{flex : 1}}>{deviceType}</Text>
-    </View>
     <View style={styles.LineBorder}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}>Battery Status</Text><Text style={{flex : 1}}>{(BatteryCharging == true) ? "Charging" : "Not Charging"}</Text>
+    <Text style={{flex : 1,fontWeight: "bold"}}>Device Type</Text><Text style={{flex : 1}}>{deviceType}</Text>
     </View>
     <View style={styles.LineBorderwhite}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Device Model</Text><Text style={{flex : 1}}>{model}</Text>
@@ -88,18 +76,6 @@ return (
     </View>
     <View style={styles.LineBorderwhite}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Wi-Fi IP Address</Text><Text style={{flex : 1}}>{Ip}</Text>
-    </View>
-    <View style={styles.LineBorder}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}>Free Disk Storage</Text><Text style={{flex : 1}}>{(FreeDiskStorage/1e+9).toFixed(2)} GB</Text>
-    </View>
-    <View style={styles.LineBorderwhite}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}>Total Disk Capacity</Text><Text style={{flex : 1}}>{(TotalDiskCapacity/1e+9).toFixed(2)} GB</Text>
-    </View>
-    <View style={styles.LineBorder}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}>Total Memory</Text><Text style={{flex : 1}}>{(getTotalMemory/1e+9).toFixed(2)} GB</Text>
-    </View>
-    <View style={styles.LineBorderwhite}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}>Used Memory</Text><Text style={{flex : 1}}>{(getUsedMemory/1e+9).toFixed(2)} GB</Text>
     </View>
   </ScrollView>
 </View>
@@ -168,9 +144,42 @@ const SecondRoute = () => {
   )
 }
 
-const ThirdRoute = () => <Center flex={1}>This is Tab 3</Center>;
+const ThirdRoute = () => {
 
-const FourthRoute = () => <Center flex={1}>This is Tab 4 </Center>;
+  let batteryLevel = DeviceInfo.useBatteryLevel();
+  let FreeDiskStorage = DeviceInfo.getFreeDiskStorageSync();
+  let TotalDiskCapacity = DeviceInfo.getTotalDiskCapacitySync();
+  let getTotalMemory = DeviceInfo.getTotalMemorySync();
+  let getUsedMemory = DeviceInfo.getUsedMemorySync();
+  let BatteryCharging = DeviceInfo.isBatteryChargingSync();
+
+  return(
+    <View style={{flex:1,backgroundColor:"#E8E8E8"}}>
+  <ScrollView style={{margin:4,marginLeft:12,marginRight:12}}>
+    <View style={styles.LineBorder}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Battery Level</Text><Text style={{flex : 1}}>{Math.round(batteryLevel*100)}%</Text>
+    </View>
+    <View style={styles.LineBorderwhite}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Battery Status</Text><Text style={{flex : 1}}>{(BatteryCharging == true) ? "Charging" : "Not Charging"}</Text>
+    </View>
+    <View style={styles.LineBorder}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Free Disk Storage</Text><Text style={{flex : 1}}>{(FreeDiskStorage/1e+9).toFixed(2)} GB</Text>
+    </View>
+    <View style={styles.LineBorderwhite}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Total Disk Capacity</Text><Text style={{flex : 1}}>{(TotalDiskCapacity/1e+9).toFixed(2)} GB</Text>
+    </View>
+    <View style={styles.LineBorder}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Total Memory</Text><Text style={{flex : 1}}>{(getTotalMemory/1e+9).toFixed(2)} GB</Text>
+    </View>
+    <View style={styles.LineBorderwhite}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Used Memory</Text><Text style={{flex : 1}}>{(getUsedMemory/1e+9).toFixed(2)} GB</Text>
+    </View>
+  </ScrollView>
+    </View>
+  )
+}
+
+const FourthRoute = () => <Center flex={1}>Developed by M.Shahbaz </Center>;
 
 const initialLayout = { width: Dimensions.get('window').width };
 
@@ -188,8 +197,8 @@ export default function TabViewExample() {
   const [routes] = React.useState([
     { key: 'first', title: 'General' },
     { key: 'second', title: 'Services' },
-    { key: 'third', title: 'Tab 3' },
-    { key: 'fourth', title: 'Tab 4' },
+    { key: 'third', title: 'Hardware' },
+    { key: 'fourth', title: 'About Us' },
   ]);
 
   const renderTabBar = (props) => {
