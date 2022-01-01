@@ -1,19 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
   Dimensions,
-  StatusBar,
   TouchableOpacity,
   Animated,
   Pressable,
   ScrollView
 } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import { NativeBaseProvider, Box, Text, Center} from 'native-base';
-import DeviceInfo, { getBaseOs } from 'react-native-device-info';
+import { NativeBaseProvider, Box, Text, Center, VStack, HStack, Button, IconButton, Icon, StatusBar} from 'native-base';
+import DeviceInfo from 'react-native-device-info';
+import SplashScreen from 'react-native-splash-screen'
 
+function AppBar(){
+  return (
+    <>
+        {/* <StatusBar backgroundColor="#00a6ff" barStyle="light-content" /> */}
 
+        <HStack bg='#00a6ff' px="5" py="3" justifyContent='space-between' alignItems='center'>
+          <HStack alignItems='center'>
+            <Text color="white" fontSize="20" fontWeight='bold'>Devicify :</Text>
+            <Text px="2" color="white" fontSize="20" fontWeight='300'>The Device Info App</Text>
+          </HStack>
+        </HStack>
+
+    </>
+  )
+}
 
 const FirstRoute = () => {
 
@@ -64,8 +78,6 @@ const FirstRoute = () => {
   let isPinOrFingerprintSet = DeviceInfo.isPinOrFingerprintSetSync()
   let isKeyboardConnected = DeviceInfo.isKeyboardConnectedSync();
   let isAirplaneMode = DeviceInfo.isAirplaneModeSync();
-  let getPhoneNumber = DeviceInfo.getPhoneNumberSync();
-  let getBaseOs = DeviceInfo.getBaseOsSync()
 
 return (
 <View style={{flex:1,backgroundColor:"#E8E8E8"}}>
@@ -161,10 +173,7 @@ return (
     <Text style={{flex : 1,fontWeight: "bold"}}>Airplane Mode</Text><Text style={{flex : 1}}>{(isAirplaneMode == true) ? "On" : "Off"}</Text>
     </View>
     <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}>Phone Number</Text><Text style={{flex : 1}}>{getPhoneNumber}</Text>
-    </View>
-    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1, backgroundColor:"white"}}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}></Text><Text style={{flex : 1}}>{}</Text>
+    <Text style={{flex : 1,fontWeight: "bold"}}></Text><Text style={{flex : 1}}></Text>
     </View>
   </ScrollView>
 </View>
@@ -186,6 +195,8 @@ const renderScene = SceneMap({
 });
 
 export default function TabViewExample() {
+  useEffect(() => SplashScreen.hide());
+
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'General' },
@@ -206,7 +217,7 @@ export default function TabViewExample() {
             ),
           });
           const color = index === i ? '#1f2937' : '#a1a1aa';
-          const borderColor = index === i ? 'cyan.500' : 'coolGray.200';
+          const borderColor = index === i ? '#00a6ff' : 'coolGray.200';
 
           return (
             <Box
@@ -232,6 +243,7 @@ export default function TabViewExample() {
 
   return (
     <NativeBaseProvider>
+            <AppBar/>
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
