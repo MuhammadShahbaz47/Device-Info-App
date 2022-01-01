@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { NativeBaseProvider, Box, Text, Center} from 'native-base';
-import DeviceInfo from 'react-native-device-info';
+import DeviceInfo, { getBaseOs } from 'react-native-device-info';
 
 
 
@@ -19,9 +19,11 @@ const FirstRoute = () => {
 
   const [deviceName, setDeviceName] = useState("")
   const [Emulator, setisEmulator] = useState()
+  const [isHeadphonesConnected, setisHeadphonesConnected] =useState()
 
   let manufacturer = DeviceInfo.getManufacturerSync();
   let appName = DeviceInfo.getApplicationName();
+  let getVersion = DeviceInfo.getVersion();
   let batteryLevel = DeviceInfo.useBatteryLevel();
   let model = DeviceInfo.getModel();
 
@@ -30,6 +32,12 @@ const FirstRoute = () => {
     });
   DeviceInfo.isEmulator().then((result) => {
       setisEmulator(result)
+  });
+  DeviceInfo.isHeadphonesConnected().then((enabled) => {
+      setisHeadphonesConnected(enabled)
+  });
+  DeviceInfo.getIpAddress().then((ip) => {
+    // "92.168.32.44"
   });
 
   // deviceJSON.batteryLevelIsLow = useBatteryLevelIsLow();
@@ -41,6 +49,23 @@ const FirstRoute = () => {
   let Carrier = DeviceInfo.getCarrierSync()
   let batteryStatus = DeviceInfo.isBatteryChargingSync();
   let hasCamera = DeviceInfo.isCameraPresentSync();
+  let Ip = DeviceInfo.getIpAddressSync();
+  let FreeDiskStorage = DeviceInfo.getFreeDiskStorageSync();
+  let TotalDiskCapacity = DeviceInfo.getTotalDiskCapacitySync();
+  let getTotalMemory = DeviceInfo.getTotalMemorySync();
+  let getUsedMemory = DeviceInfo.getUsedMemorySync();
+  let BatteryCharging = DeviceInfo.isBatteryChargingSync();
+  let GMS = DeviceInfo.hasGmsSync();
+  let HMS = DeviceInfo.hasHmsSync();
+  let LocationEnabled = DeviceInfo.isLocationEnabledSync()
+  let hasNotch = DeviceInfo.hasNotch();
+  let isMouseConnected = DeviceInfo.isMouseConnectedSync();
+  let isLandscape = DeviceInfo.isLandscapeSync();
+  let isPinOrFingerprintSet = DeviceInfo.isPinOrFingerprintSetSync()
+  let isKeyboardConnected = DeviceInfo.isKeyboardConnectedSync();
+  let isAirplaneMode = DeviceInfo.isAirplaneModeSync();
+  let getPhoneNumber = DeviceInfo.getPhoneNumberSync();
+  let getBaseOs = DeviceInfo.getBaseOsSync()
 
 return (
 <View style={{flex:1,backgroundColor:"#E8E8E8"}}>
@@ -49,7 +74,7 @@ return (
     <Text style={{flex : 1,fontWeight: "bold"}}>Manufacturer</Text><Text style={{flex : 1}}>{manufacturer}</Text>
     </View>
     <View style={{flex:1, flexDirection:"row", maxHeight:100, padding:1, backgroundColor:"white"}}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}>App name</Text><Text style={{flex : 1}}>{appName}</Text>
+    <Text style={{flex : 1,fontWeight: "bold"}}>App Name & Version</Text><Text style={{flex : 1}}>{appName} {getVersion}</Text>
     </View>
     <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Battery Level</Text><Text style={{flex : 1}}>{Math.round(batteryLevel*100)}%</Text>
@@ -84,8 +109,62 @@ return (
     <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Device Model</Text><Text style={{flex : 1}}>{model}</Text>
     </View>
-    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1, backgroundColor:"white"}}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Device Id</Text><Text style={{flex : 1}}>{deviceId}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Headphones Connected</Text><Text style={{flex : 1}}>{String(isHeadphonesConnected)}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1, backgroundColor:"white"}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Wi-Fi IP Address</Text><Text style={{flex : 1}}>{Ip}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Free Disk Storage</Text><Text style={{flex : 1}}>{(FreeDiskStorage/1e+9).toFixed(2)} GB</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1, backgroundColor:"white"}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Total Disk Capacity</Text><Text style={{flex : 1}}>{(TotalDiskCapacity/1e+9).toFixed(2)} GB</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Total Memory</Text><Text style={{flex : 1}}>{(getTotalMemory/1e+9).toFixed(2)} GB</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1, backgroundColor:"white"}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Used Memory</Text><Text style={{flex : 1}}>{(getUsedMemory/1e+9).toFixed(2)} GB</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Battery Status</Text><Text style={{flex : 1}}>{(BatteryCharging == true) ? "Charging" : "Not Charging"}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1, backgroundColor:"white"}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Google Mobile Services</Text><Text style={{flex : 1}}>{String(GMS)}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Huawei Mobile Services</Text><Text style={{flex : 1}}>{String(HMS)}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1, backgroundColor:"white"}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Location Enabled</Text><Text style={{flex : 1}}>{String(LocationEnabled)}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Notch</Text><Text style={{flex : 1}}>{String(hasNotch)}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1, backgroundColor:"white"}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Mouse Connected</Text><Text style={{flex : 1}}>{String(isMouseConnected)}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Is Landscape</Text><Text style={{flex : 1}}>{String(isLandscape)}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1, backgroundColor:"white"}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Is PinOrFingerprintSet</Text><Text style={{flex : 1}}>{String(isPinOrFingerprintSet)}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Is KeyboardConnected</Text><Text style={{flex : 1}}>{String(isKeyboardConnected)}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1, backgroundColor:"white"}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Airplane Mode</Text><Text style={{flex : 1}}>{(isAirplaneMode == true) ? "On" : "Off"}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Phone Number</Text><Text style={{flex : 1}}>{getPhoneNumber}</Text>
+    </View>
+    <View style={{flex:1, flexDirection:"row", maxHeight:100,padding:1, backgroundColor:"white"}}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}></Text><Text style={{flex : 1}}>{}</Text>
     </View>
   </ScrollView>
 </View>
@@ -109,7 +188,7 @@ const renderScene = SceneMap({
 export default function TabViewExample() {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'first', title: 'Tab 1' },
+    { key: 'first', title: 'General' },
     { key: 'second', title: 'Tab 2' },
     { key: 'third', title: 'Tab 3' },
     { key: 'fourth', title: 'Tab 4' },
