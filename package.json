@@ -15,6 +15,7 @@
     "react-native": "0.66.4",
     "react-native-device-info": "^8.4.8",
     "react-native-pager-view": "^5.4.9",
+    "react-native-restart": "^0.0.23",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^12.1.1",

@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   StyleSheet,
   Dimensions,
-  TouchableOpacity,
   Animated,
   Pressable,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import { NativeBaseProvider, Box, Text, Center, VStack, HStack, Button, IconButton, Icon, StatusBar} from 'native-base';
+import { NativeBaseProvider, Box, Text, VStack, HStack,StatusBar, FlatList, Avatar, Spacer, Heading, Button} from 'native-base';
 import DeviceInfo from 'react-native-device-info';
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from 'react-native-splash-screen';
+import RNRestart from 'react-native-restart';
 
 function AppBar(){
   return (
@@ -30,6 +30,8 @@ function AppBar(){
 }
 
 const FirstRoute = () => {
+
+  const startReload = ()=> RNRestart.Restart();
 
   let manufacturer = DeviceInfo.getManufacturerSync();
   let appName = DeviceInfo.getApplicationName();
@@ -75,7 +77,10 @@ return (
     <Text style={{flex : 1,fontWeight: "bold"}}>Device Id</Text><Text style={{flex : 1}}>{deviceId}</Text>
     </View>
     <View style={styles.LineBorderwhite}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}>Wi-Fi IP Address</Text><Text style={{flex : 1}}>{Ip}</Text>
+    <Text style={{flex : 1,fontWeight: "bold"}}>Wi-Fi IP Address</Text><Text style={{flex : 1}}>{(Ip == "0.0.0.0") ? "Wi-Fi Not Available" : Ip}</Text>
+    </View>
+    <View marginTop={10}> 
+    <Button backgroundColor={"#00a6ff"} onPress={startReload}>Reload</Button>
     </View>
   </ScrollView>
 </View>
@@ -156,17 +161,29 @@ const ThirdRoute = () => {
   return(
     <View style={{flex:1,backgroundColor:"#E8E8E8"}}>
   <ScrollView style={{margin:4,marginLeft:12,marginRight:12}}>
+    <View style={{backgroundColor:"white"}}> 
+    <Text style={{textAlign: 'center', fontWeight: "bold"}}>Battery</Text>
+    </View>
     <View style={styles.LineBorder}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Battery Level</Text><Text style={{flex : 1}}>{Math.round(batteryLevel*100)}%</Text>
     </View>
     <View style={styles.LineBorderwhite}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Battery Status</Text><Text style={{flex : 1}}>{(BatteryCharging == true) ? "Charging" : "Not Charging"}</Text>
     </View>
+    <View style={{backgroundColor:"white",marginTop:25}}> 
+    <Text style={{textAlign: 'center', fontWeight: "bold"}}>Storage</Text>
+    </View>
+    <View style={styles.LineBorder}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Total Disk Capacity</Text><Text style={{flex : 1}}>{(TotalDiskCapacity/1e+9).toFixed(2)} GB</Text>
+    </View>
+    <View style={styles.LineBorderwhite}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Used Disk Capacity</Text><Text style={{flex : 1}}>{((TotalDiskCapacity/1e+9)-(FreeDiskStorage/1e+9)).toFixed(2)} GB</Text>
+    </View>
     <View style={styles.LineBorder}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Free Disk Storage</Text><Text style={{flex : 1}}>{(FreeDiskStorage/1e+9).toFixed(2)} GB</Text>
     </View>
-    <View style={styles.LineBorderwhite}> 
-    <Text style={{flex : 1,fontWeight: "bold"}}>Total Disk Capacity</Text><Text style={{flex : 1}}>{(TotalDiskCapacity/1e+9).toFixed(2)} GB</Text>
+    <View style={{backgroundColor:"white",marginTop:25}}> 
+    <Text style={{textAlign: 'center', fontWeight: "bold"}}>RAM</Text>
     </View>
     <View style={styles.LineBorder}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Total Memory</Text><Text style={{flex : 1}}>{(getTotalMemory/1e+9).toFixed(2)} GB</Text>
@@ -174,12 +191,116 @@ const ThirdRoute = () => {
     <View style={styles.LineBorderwhite}> 
     <Text style={{flex : 1,fontWeight: "bold"}}>Used Memory</Text><Text style={{flex : 1}}>{(getUsedMemory/1e+9).toFixed(2)} GB</Text>
     </View>
+    <View style={styles.LineBorder}> 
+    <Text style={{flex : 1,fontWeight: "bold"}}>Free Memory</Text><Text style={{flex : 1}}>{(((getTotalMemory)-(getUsedMemory))/1e+9).toFixed(2)} GB</Text>
+    </View>
   </ScrollView>
     </View>
   )
 }
 
-const FourthRoute = () => <Center flex={1}>Developed by M.Shahbaz </Center>;
+const FourthRoute = () => {
+  const data = [
+    {
+      fullName: "Muhammad Shahbaz Abdul Aziz",
+      recentText: "CSC-19F-100",
+      avatarUrl:
+        "https://i.ibb.co/3RZY2SV/205248809-3003087506646312-7082831507477165500-n2.jpg"
+    },
+    {
+      fullName: "Mubashir Aslam",
+      recentText: "CSC-19F-096",
+      avatarUrl:"https://i.ibb.co/vm6M9xt/pp.jpg"
+    },
+    {
+      fullName: "Zeeshan Ashraf",
+      recentText: "CSC-19F-106",
+      avatarUrl: "https://i.ibb.co/WKyjvdS/pp-1.jpg"
+    }
+  ]
+  return (
+    <Box
+      w={{
+        base: "100%",
+        md: "25%",
+      }}
+    >
+        
+      <Heading fontSize="xl" p="4" pb="3">
+        About App
+      </Heading>
+            
+            <HStack px={4} space={3} justifyContent="space-between">
+              <Avatar backgroundColor={"blue.400"}
+                size="48px"
+                source={{
+                  uri: "https://i.ibb.co/mBvwHPz/ic-launcher-round.png"
+                }}
+              />
+              <VStack>
+                <Text style={{fontWeight:"bold", fontSize:20}}>
+                  Devicify 1.0
+                </Text>
+                <Text marginRight={20}>
+                Devicify(Device info application) is an app that provides you with the information
+                you need to know about your phone, system, and hardware with a simple and easy-to-use
+                interface.
+                </Text>
+              </VStack>
+              <Spacer />
+            </HStack>
+
+      <Heading fontSize="xl" p="4" pb="3">
+        Group Members
+      </Heading>
+
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <Box
+            borderBottomWidth="1"
+            _dark={{
+              borderColor: "gray.600",
+            }}
+            borderColor="coolGray.200"
+            pl="4"
+            pr="5"
+            py="2"
+          >
+            <HStack space={3} justifyContent="space-between">
+              <Avatar
+                size="48px"
+                source={{
+                  uri: item.avatarUrl,
+                }}
+              />
+              <VStack>
+                <Text
+                  _dark={{
+                    color: "warmGray.50",
+                  }}
+                  color="coolGray.800"
+                  bold
+                >
+                  {item.fullName}
+                </Text>
+                <Text
+                  color="coolGray.600"
+                  _dark={{
+                    color: "warmGray.200",
+                  }}
+                >
+                  {item.recentText}
+                </Text>
+              </VStack>
+              <Spacer />
+            </HStack>
+          </Box>
+        )}
+      />
+    </Box>
+  )
+}
 
 const initialLayout = { width: Dimensions.get('window').width };
 
